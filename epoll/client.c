@@ -7,6 +7,8 @@
 #include<sys/socket.h>  
 #include<netinet/in.h>  
 #include <arpa/inet.h>
+#include <sys/time.h>
+#include <time.h>
 
 #define MAXLINE 4096  
 
@@ -14,6 +16,7 @@ int main(int argc, char** argv)
 {      
 	int    sockfd;      
 	char   sendline[4096];      
+	char   recvline[4096];      
 	struct sockaddr_in    servaddr;      
 
 	if( argc != 2)  
@@ -45,7 +48,18 @@ int main(int argc, char** argv)
 	}      
 	//	printf("send msg to server: \n");     
 	//	fgets(sendline, 4096, stdin);      
-	strcpy(sendline, "HelloWorld");
+
+#if 0
+
+	struct timeval timeout = {3,0}; 	
+	socklen_t timeout_len = sizeof(timeout);
+
+	setsockopt(sockfd, SOL_SOCKET, SO_SNDTIMEO, &timeout, timeout_len);
+	setsockopt(sockfd, SOL_SOCKET, SO_RCVTIMEO, &timeout, timeout_len);
+
+
+#endif
+	strcpy(sendline, "HelloWorld\n");
 	while(1) 
 	{
 		if( send(sockfd, sendline, strlen(sendline), 0) < 0)      
@@ -54,8 +68,10 @@ int main(int argc, char** argv)
 					strerror(errno), errno);      
 			exit(0);      
 		}     
-		recv(sockfd, sendline, sizeof(sendline), 0);
-		printf("%s\n", sendline);
+		printf("sendline:%s\n", sendline);
+		recv(sockfd, recvline, sizeof(sendline), 0);
+
+		printf("recvline:%s\n", recvline);
 
 	}
 

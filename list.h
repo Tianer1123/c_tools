@@ -4,8 +4,8 @@
 #include <stdlib.h>  
 #define offsetof(TYPE, MEMBER) ((size_t) &((TYPE *)0)->MEMBER)  
   
-#define container_of(ptr, type, member) ( { \  
-        const typeof( ((type *)0)->member ) *__mptr = (ptr); \  
+#define container_of(ptr, type, member) ( { \
+        const typeof( ((type *)0)->member ) *__mptr = (ptr); \
         (type *)( (char *)__mptr - offsetof(type,member) ); } )  
   
 static inline void prefetch(const void *x) {;}  
@@ -20,11 +20,11 @@ struct list_head {
   
 #define LIST_HEAD_INIT(name) { &(name), &(name) }  
   
-#define LIST_HEAD(name) \  
+#define LIST_HEAD(name) \
         struct list_head name = LIST_HEAD_INIT(name)  
   
-#define INIT_LIST_HEAD(ptr) do { \  
-        (ptr)->next = (ptr); (ptr)->prev = (ptr); \  
+#define INIT_LIST_HEAD(ptr) do { \
+        (ptr)->next = (ptr); (ptr)->prev = (ptr); \
 } while (0)  
   
 /* 
@@ -156,43 +156,43 @@ static inline void list_splice_init(struct list_head *list,
 #define list_entry(ptr, type, member) container_of(ptr, type, member)  
   
   
-#define list_for_each(pos, head) \  
-        for (pos = (head)->next; prefetch(pos->next), pos != (head); \  
+#define list_for_each(pos, head) \
+        for (pos = (head)->next; prefetch(pos->next), pos != (head); \
                 pos = pos->next)  
   
-#define __list_for_each(pos, head) \  
+#define __list_for_each(pos, head) \
         for (pos = (head)->next; pos != (head); pos = pos->next)  
   
-#define list_for_each_prev(pos, head) \  
-        for (pos = (head)->prev; prefetch(pos->prev), pos != (head); \  
+#define list_for_each_prev(pos, head) \
+        for (pos = (head)->prev; prefetch(pos->prev), pos != (head); \
                 pos = pos->prev)  
   
-#define list_for_each_safe(pos, n, head) \  
-        for (pos = (head)->next, n = pos->next; pos != (head); \  
+#define list_for_each_safe(pos, n, head) \
+        for (pos = (head)->next, n = pos->next; pos != (head); \
                 pos = n, n = pos->next)  
   
-#define list_for_each_entry(pos, head, member)                                \  
-        for (pos = list_entry((head)->next, typeof(*pos), member);        \  
-             prefetch(pos->member.next), &pos->member != (head);         \  
+#define list_for_each_entry(pos, head, member)                            \
+        for (pos = list_entry((head)->next, typeof(*pos), member);        \
+             prefetch(pos->member.next), &pos->member != (head);          \
              pos = list_entry(pos->member.next, typeof(*pos), member))  
   
-#define list_for_each_entry_reverse(pos, head, member)                        \  
-        for (pos = list_entry((head)->prev, typeof(*pos), member);        \  
-             prefetch(pos->member.prev), &pos->member != (head);         \  
+#define list_for_each_entry_reverse(pos, head, member)                    \
+        for (pos = list_entry((head)->prev, typeof(*pos), member);        \
+             prefetch(pos->member.prev), &pos->member != (head);          \
              pos = list_entry(pos->member.prev, typeof(*pos), member))  
   
-#define list_prepare_entry(pos, head, member) \  
+#define list_prepare_entry(pos, head, member) \
         ((pos) ? : list_entry(head, typeof(*pos), member))  
   
-#define list_for_each_entry_continue(pos, head, member)                 \  
-        for (pos = list_entry(pos->member.next, typeof(*pos), member);        \  
-             prefetch(pos->member.next), &pos->member != (head);        \  
+#define list_for_each_entry_continue(pos, head, member)                 \
+        for (pos = list_entry(pos->member.next, typeof(*pos), member);        \
+             prefetch(pos->member.next), &pos->member != (head);        \
              pos = list_entry(pos->member.next, typeof(*pos), member))  
   
-#define list_for_each_entry_safe(pos, n, head, member)                        \  
-        for (pos = list_entry((head)->next, typeof(*pos), member),        \  
-                n = list_entry(pos->member.next, typeof(*pos), member);        \  
-             &pos->member != (head);                                         \  
+#define list_for_each_entry_safe(pos, n, head, member)                        \
+        for (pos = list_entry((head)->next, typeof(*pos), member),        \
+                n = list_entry(pos->member.next, typeof(*pos), member);        \
+             &pos->member != (head);                                         \
              pos = n, n = list_entry(n->member.next, typeof(*n), member))  
   
 //HASH LIST  
@@ -277,35 +277,35 @@ static inline void hlist_add_after(struct hlist_node *n,
   
 #define hlist_entry(ptr, type, member) container_of(ptr,type,member)  
   
-#define hlist_for_each(pos, head) \  
-        for (pos = (head)->first; pos && ({ prefetch(pos->next); 1; }); \  
+#define hlist_for_each(pos, head) \
+        for (pos = (head)->first; pos && ({ prefetch(pos->next); 1; }); \
              pos = pos->next)  
   
-#define hlist_for_each_safe(pos, n, head) \  
-        for (pos = (head)->first; pos && ({ n = pos->next; 1; }); \  
+#define hlist_for_each_safe(pos, n, head) \
+        for (pos = (head)->first; pos && ({ n = pos->next; 1; }); \
              pos = n)  
   
-#define hlist_for_each_entry(tpos, pos, head, member)                         \  
-        for (pos = (head)->first;                                         \  
-             pos && ({ prefetch(pos->next); 1;}) &&                         \  
-                ({ tpos = hlist_entry(pos, typeof(*tpos), member); 1;}); \  
+#define hlist_for_each_entry(tpos, pos, head, member)                     \
+        for (pos = (head)->first;                                         \
+             pos && ({ prefetch(pos->next); 1;}) &&                       \
+                ({ tpos = hlist_entry(pos, typeof(*tpos), member); 1;}); \
              pos = pos->next)  
   
-#define hlist_for_each_entry_continue(tpos, pos, member)                 \  
-        for (pos = (pos)->next;                                                 \  
-             pos && ({ prefetch(pos->next); 1;}) &&                         \  
-                ({ tpos = hlist_entry(pos, typeof(*tpos), member); 1;}); \  
+#define hlist_for_each_entry_continue(tpos, pos, member)                 \
+        for (pos = (pos)->next;                                                 \
+             pos && ({ prefetch(pos->next); 1;}) &&                         \
+                ({ tpos = hlist_entry(pos, typeof(*tpos), member); 1;}); \
              pos = pos->next)  
   
-#define hlist_for_each_entry_from(tpos, pos, member)                         \  
-        for (; pos && ({ prefetch(pos->next); 1;}) &&                         \  
-                ({ tpos = hlist_entry(pos, typeof(*tpos), member); 1;}); \  
+#define hlist_for_each_entry_from(tpos, pos, member)                         \
+        for (; pos && ({ prefetch(pos->next); 1;}) &&                         \
+                ({ tpos = hlist_entry(pos, typeof(*tpos), member); 1;}); \
              pos = pos->next)  
   
-#define hlist_for_each_entry_safe(tpos, pos, n, head, member)                  \  
-        for (pos = (head)->first;                                         \  
-             pos && ({ n = pos->next; 1; }) &&                                  \  
-                ({ tpos = hlist_entry(pos, typeof(*tpos), member); 1;}); \  
+#define hlist_for_each_entry_safe(tpos, pos, n, head, member)                  \
+        for (pos = (head)->first;                                         \
+             pos && ({ n = pos->next; 1; }) &&                                  \
+                ({ tpos = hlist_entry(pos, typeof(*tpos), member); 1;}); \
              pos = n)  
   
 #endif  

@@ -5,3 +5,4 @@
 * list.h：用户层内核链表.
 * kmp.c：KMD算法实现.
 * encoded/：根据编码表实现GB2312与UTF-8转码.
+* md5.c：MD5加密.

@@ -26,7 +26,7 @@ void mylog(int line, const char* file, const char* fun, char* format, ...)
 	va_start(vaptr, format);
 	vsprintf(fmtString, format, vaptr);
 
-	sprintf(out_str, "%s [%s=>%s:%d]:%s", out_timer, 
+	snprintf(out_str, sizeof(out_str), "%s [%s=>%s:%d]:%s", out_timer, 
 			file, 
 			fun, 
 			line, 

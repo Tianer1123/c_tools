@@ -3,13 +3,13 @@
 
 void getNext(const char *p, int *next)
 {
-	int i, k;  //i为下标,k为next[i]的值. i在递增,k回溯
+	int i, k;  //i为下标,k为next[i]的值. i只递增,k回溯
 	int slen = strlen(p); //要查找的串的长度.
 	next[0] = 0; //p[0]的next值为0;
 
 	for (i = 1, k = 0; i < slen; ++i) {
 		while (k != 0 && p[i] != p[k])
-			k = next[k - 1];
+			k = next[k - 1];        //KMP算法核心部分
 
 		if (p[i] == p[k])
 			k++;

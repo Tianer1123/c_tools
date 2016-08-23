@@ -7,3 +7,7 @@
 * [encoded/](https://github.com/Tianer1123/c_tools/tree/master/encoded)：根据编码表实现GB2312与UTF-8转码.
 * [md5.c](https://github.com/Tianer1123/c_tools/blob/master/md5.c)：MD5加密.
 * [epoll/client.c](https://github.com/Tianer1123/c_tools/blob/master/epoll/client.c)：一个TCP客户端例子程序.
+* [json](https://github.com/Tianer1123/c_tools/tree/master/json)：一个json库.
+* [gethostbyname.c](https://github.com/Tianer1123/c_tools/blob/master/gethostbyname.c)：gethostbyname例子程序.
+* [iconv.c](https://github.com/Tianer1123/c_tools/blob/master/iconv.c)：iconv库编码转换例子程序.
+* [socketpair.c](https://github.com/Tianer1123/c_tools/blob/master/socketpair.c)：socketpair例子程序.

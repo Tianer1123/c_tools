@@ -29,7 +29,7 @@ else
 fi
 done < $CONF_FILE # done < $CONF_FILE 这种写法中<只允许读文件而不允许读字符串?
 
-#grep -w 精确匹配, grep -v grep 过滤掉包含grep的行， wc -l显示文件的行数
+#grep -w 精确匹配, grep -v grep 过滤掉包含grep的行， wc -l显示文件的行数.
 
 #根据进程名查找到所有的进程ID，并kill掉所有的进程。
 PID=`ps -ef | grep -w $PROC_NAME | grep -v grep | awk '{print $2}'`
@@ -38,6 +38,9 @@ for id in $PID
 do
 	kill -9 $id
 done
+
+#开机后台运行$PROC_NAME进程.
+$PROC_NAME &
 
 #查找该进程的个数，如果与预设的不一致，killall掉所有进程并重启。
 while :

@@ -14,8 +14,14 @@ CONF_FILE=/root/test.conf
 while read line; do
 
 #过滤掉空行或者以#开头的注释行，if 判断中 = 或 == 两边要有空格.
-if [ x"$line" = x ] || [ "#" = ${line:0:1} ];then
+if [ x"$line" = x ];then
         continue
+else
+	#如果#前面有空格，去掉空格再比较.
+        str=`echo "$line" | sed -e "s/^[ ]*//g" | sed -e "s/[ ]*$//g"`
+        if [ "#" = ${str:0:1} ];then
+                continue
+        fi
 fi
 
 name=`echo $line|awk -F '=' '{print $1}'`

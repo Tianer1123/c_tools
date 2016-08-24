@@ -11,7 +11,7 @@ CONF_FILE=/root/test.conf
 #egrep -v "(^$)|(^#)" $CONF_FILE | while read line; do
 while read line; do
 
-#过滤掉空行或者以#开头的注释行
+#过滤掉空行或者以#开头的注释行，if 判断中 = 或 == 两边要有空格.
 if [ x"$line" = x ] || [ "#" = ${line:0:1} ];then
         continue
 fi

@@ -1,7 +1,7 @@
 #!/bin/bash
 #开机启动在/etc/rc.local中添加执行路径
 PROC_NAME=/home/tianer/opt/test/a.out
-PNum=2      #开启两个进程（父子进程）
+PNum=2      #默认开启两个进程（父子进程）
 
 #name=value
 CONF_FILE=/root/test.conf
@@ -20,6 +20,7 @@ fi
 name=`echo $line|awk -F '=' '{print $1}'`
 value=`echo $line|awk -F '=' '{print $2}'`
 
+#如果配置文件设置了process_num的值,取process_num(子进程个数)的值+1.
 if [ $name = "process_num" ];then
         #$((0x01)) 16进制转10进制,$[$a + $b]计算两个数字的和
         PNum=$[$(($value))+1]

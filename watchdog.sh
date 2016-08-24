@@ -6,7 +6,15 @@ PNum=2      #开启两个进程（父子进程）
 CONF_FILE=/root/test.conf
 #读取配置中的PNum
 #去掉空行和#开头的注释
-egrep -v "(^$)|(^#)" $CONF_FILE | while read line; do
+
+#egrep这种写法，在循环体中修改PNum的值无效.
+#egrep -v "(^$)|(^#)" $CONF_FILE | while read line; do
+while read line; do
+
+#过滤掉空行或者以#开头的注释行
+if [ x"$line" = x ] || [ "#" = ${line:0:1} ];then
+        continue
+fi
 
 name=`echo $line|awk -F '=' '{print $1}'`
 value=`echo $line|awk -F '=' '{print $2}'`
@@ -19,7 +27,7 @@ if [ $name = "process_num" ];then
 else
         echo "$PNum"
 fi
-done
+done < $CONF_FILE # done < $CONF_FILE 这种写法中<只运行读文件?
 
 #grep -w 精确匹配, grep -v grep 过滤掉包含grep的行， wc -l显示文件的行数
 

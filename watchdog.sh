@@ -2,6 +2,7 @@
 PROC_NAME=/home/tianer/opt/test/a.out
 PNum=2      #开启两个进程（父子进程）
 
+#name=value
 CONF_FILE=/root/test.conf
 #读取配置中的PNum
 #去掉空行和#开头的注释

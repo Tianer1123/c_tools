@@ -27,7 +27,7 @@ if [ $name = "process_num" ];then
 else
         echo "$PNum"
 fi
-done < $CONF_FILE # done < $CONF_FILE 这种写法中<只运行读文件?
+done < $CONF_FILE # done < $CONF_FILE 这种写法中<只允许读文件而不允许读字符串?
 
 #grep -w 精确匹配, grep -v grep 过滤掉包含grep的行， wc -l显示文件的行数
 

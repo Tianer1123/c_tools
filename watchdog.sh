@@ -1,4 +1,5 @@
 #!/bin/bash
+#开机启动在/etc/rc.local中添加执行路径
 PROC_NAME=/home/tianer/opt/test/a.out
 PNum=2      #开启两个进程（父子进程）
 

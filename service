@@ -1,1 +1,11 @@
+#!/bin/bash
+#myapp              service of myapp
+#
+#description: Start stop restart status
+#
+#操作流程：
+#1.chmod +x /path/my/app
+#2.mv myapp /etc/init.d/myapp
+#3.ls -sf /etc/init.d/myapp /etc/rc3.d/S100myapp
+
 

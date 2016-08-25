@@ -8,4 +8,57 @@
 #2.mv service /etc/init.d/myapp_service       #把该文件移到init.d目录下,要具有可执行权限.
 #3.ls -sf /etc/init.d/myapp_service /etc/rc3.d/S100myapp_service
 
+#myapp的绝对路径
+PROC_MYAPP=/path/myapp
+
+#watchdog绝对路径.通过watchdog来启动程序.
+PROC_WATCHDOG=/path/watchdog
+
+#一个提示字符串
+usage_str="See Usgage"
+
+#命令执行后的返回值
+RETVAL=0
+
+#获取进程个数的函数,函数只能return返回数字，如果返回字符串用echo.
+#需要一个参数
+function GetProcNum() {
+  if [ x"$1" = x ];then
+    return 99
+  fi
+  ProcNum=`ps -ef | grep -w $1 | grep -v grep | wc -l`
+  RETVAL=$?
+  if [ $RETVAL -eq 0 ];then #命令执行成功
+    echo $ProcNum           #以字符串形式返回ProcNum
+  else
+    return 99
+  fi
+}
+
+#获取进程个数的函数,函数只能return返回数字，如果返回字符串用echo.
+#需要一个参数
+function GetPid() {
+  if [ x"$1" = x ];then
+    return 99
+  fi
+  Pids=`ps -ef | grep $1 | grep -v grep | grep -v PPID | awk '{ print $2}'`
+  RETVAL=$?
+  if [ $RETVAL -eq 0 ];then #命令执行成功
+    echo $Pids              #以字符串形式返回Pids
+  else
+    return 99
+  fi
+}
+
+#status功能：检查每一个进程的运行是否正常,并打印提示信息.
+if [ "$1" = "status" ] ; then
+  echo ""
+  ProcNumber_myapp=`GetProcNum "$PROC_MYAPP"`
+  if [ $ProcNumber_myapp -eq 0 ];then
+    echo "myapp service not start...$usage_str!"
+  else
+    echo "myapp service started!"
+  fi
+  echo ""
+fi
 

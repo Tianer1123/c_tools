@@ -62,3 +62,28 @@ if [ "$1" = "status" ] ; then
   echo ""
 fi
 
+start() {
+  echo ""
+  
+  #执行GetProcNum函数,传递参数$PROC_WATCHDOG.并将返回值赋值给ProcNum_watchdog.
+  #只要watchdog起着,其他进程都起着.如果watchdog起着，提示服务已经起来了.
+  ProcNum_watchdog=`GetProcNum "$PROC_WATCHDOG"`
+  RETVAL=$?
+  if [ $RETVAL -ne 0 ];then
+    return $RETVAL
+  fi
+  if [ $ProcNum_watchdog -ne 0 ];then  #watchdog进程在运行.
+    echo "service myapp already started!"
+    echo ""
+    return $RETVAL
+  fi
+  
+  #运行所有进程
+  echo "Starting service myapp..."
+  $PROC_WATCHDOG 2>/dev/null >/dev/null & #后台运行,不在终端上显示打印信息.
+  echo "service myapp start ok!"
+  echo ""
+  
+  RETVAL=0
+  return $RETVAL
+}

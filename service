@@ -4,8 +4,8 @@
 #description: Start stop restart status
 #
 #操作流程：
-#1.chmod +x /path/my/app
-#2.mv myapp /etc/init.d/myapp
-#3.ls -sf /etc/init.d/myapp /etc/rc3.d/S100myapp
+#1.chmod +x /path/my/service
+#2.mv service /etc/init.d/myapp_service       #把该文件移到init.d目录下,要具有可执行权限.
+#3.ls -sf /etc/init.d/myapp_service /etc/rc3.d/S100myapp_service
 
 

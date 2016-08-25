@@ -35,7 +35,7 @@ function GetProcNum() {
   fi
 }
 
-#获取进程个数的函数,函数只能return返回数字，如果返回字符串用echo.
+#获取进程ID的函数,函数只能return返回数字，如果返回字符串用echo.
 #需要一个参数
 function GetPid() {
   if [ x"$1" = x ];then

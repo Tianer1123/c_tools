@@ -62,6 +62,7 @@ if [ "$1" = "status" ] ; then
   echo ""
 fi
 
+#需要将所有的依赖程序都启动,在watchdog中已做了处理,
 start() {
   echo ""
   
@@ -87,3 +88,72 @@ start() {
   RETVAL=0
   return $RETVAL
 }
+
+#需要将所有的依赖程序都关闭掉,如果有顺序需要注意顺序
+stop() {
+  #查看所有运行的程序并关闭掉.
+  echo ""
+  echo "Stopping service myapp..."
+
+  #kill watchdog
+  watch_dog=`GetPid "$PROC_WATCHDOG"`
+  RETVAL=$?
+  if [ $RETVAL -ne 0 ];then
+    return $RETVAL
+  fi
+  for i in $watch_dog
+  do
+    kill -9 $i
+  done
+
+  #kill myapp
+  my_app=`GetPid "$PROC_MYAPP"`
+  RETVAL=$?
+  if [ $RETVAL -ne 0 ];then
+    return $RETVAL
+  fi
+  for i in $my_app
+  do
+    kill -9 $i
+  done
+
+  echo "Stop service OK!"
+  echo ""
+
+  RETVAL=0
+  return $RETVAL
+}
+
+#start stop
+restart() {
+  echo ""
+  echo "restarting service myapp..."
+  stop
+  start
+  echo "restart service OK!"
+  echo ""
+
+  RETVAL=0
+  return $RETVAL
+}
+
+#see how we were called.
+case $1 in
+  start):
+    start
+    ;;
+  stop):
+    stop
+    ;;
+  restart):
+    restart
+    ;;
+  *)
+    #用户使用提示信息
+    echo $"Usage: service myapp {start|stop|restart|status}"
+    echo ""
+    RETVAL=3
+
+esac
+
+exit $RETVAL

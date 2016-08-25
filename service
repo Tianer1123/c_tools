@@ -81,7 +81,8 @@ start() {
   
   #运行所有进程
   echo "Starting service myapp..."
-  $PROC_WATCHDOG 2>/dev/null >/dev/null & #后台运行,不在终端上显示打印信息.
+  #$PROC_WATCHDOG 2>/dev/null >/dev/null & #后台运行,不在终端上显示打印信息.
+  $PROC_WATCHDOG >/dev/null 2>&1 & #同上
   echo "service myapp start ok!"
   echo ""
   

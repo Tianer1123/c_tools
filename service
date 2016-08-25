@@ -1,6 +1,7 @@
 #!/bin/bash
 #myapp              service of myapp
 #
+#chkconfig: 2345 12 90                           #添加chkconfig功能,这一行和description必须要加.
 #description: Start stop restart status
 #
 #操作流程：

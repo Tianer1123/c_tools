@@ -12,4 +12,4 @@
 * [gethostbyname.c](https://github.com/Tianer1123/c_tools/blob/master/gethostbyname.c)：gethostbyname例子程序.
 * [iconv.c](https://github.com/Tianer1123/c_tools/blob/master/iconv.c)：iconv库编码转换例子程序.
 * [socketpair.c](https://github.com/Tianer1123/c_tools/blob/master/socketpair.c)：socketpair例子程序.
-* [service](https://github.com/Tianer1123/c_tools/blob/master/service)：应用程序服务脚本
+* [service](https://github.com/Tianer1123/c_tools/blob/master/service)：将应用程序做成服务的脚本.

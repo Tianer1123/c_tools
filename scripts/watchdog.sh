@@ -1,5 +1,5 @@
 #!/bin/bash
-#开机启动在/etc/rc.local中添加执行路径
+#开机启动在/etc/rc.local中添加执行路径，也可以将其作为service，见service脚本。
 #/root/tian/watchdog.sh &  #需要加地址符后台运行(不加会怎么样可以试试^_^)
 PROC_NAME=/home/tianer/opt/test/a.out
 PNum=2      #默认开启两个进程（父子进程）

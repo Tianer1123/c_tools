@@ -1,6 +1,5 @@
 # c\_tools
 
-* [watchdog.sh](https://github.com/Tianer1123/c_tools/blob/master/watchdog.sh)：看门狗脚本.
 * [mylog.c](https://github.com/Tianer1123/c_tools/blob/master/mylog.c)：一个简单的日志输出的函数.
 * [list.h](https://github.com/Tianer1123/c_tools/blob/master/list.h)：用户层内核链表.
 * [kmp.c](https://github.com/Tianer1123/c_tools/blob/master/kmp.c)：KMP算法实现.
@@ -12,4 +11,4 @@
 * [gethostbyname.c](https://github.com/Tianer1123/c_tools/blob/master/gethostbyname.c)：gethostbyname例子程序.
 * [iconv.c](https://github.com/Tianer1123/c_tools/blob/master/iconv.c)：iconv库编码转换例子程序.
 * [socketpair.c](https://github.com/Tianer1123/c_tools/blob/master/socketpair.c)：socketpair例子程序.
-* [service](https://github.com/Tianer1123/c_tools/blob/master/service)：将应用程序做成服务的脚本.
+* [scripts](https://github.com/Tianer1123/c_tools/tree/master/scripts)：一些脚本

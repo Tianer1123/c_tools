@@ -5,10 +5,11 @@
 #description: Start stop restart status
 #
 #操作流程：
-#1.chmod +x /path/my/service
+#1.chmod +x /path/my/myapp_service
 #2.mv service /etc/init.d/myapp_service       #把该文件移到init.d目录下,要具有可执行权限.
 #3.ls -sf /etc/init.d/myapp_service /etc/rc3.d/S100myapp_service
 #4.chkconfig --add myapp_service              #开机自启myapp_service服务
+#5.service myapp_service start                #启动myapp_service服务
 
 #myapp的绝对路径
 PROC_MYAPP=/path/myapp

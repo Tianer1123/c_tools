@@ -87,6 +87,24 @@ start() {
   #$PROC_WATCHDOG 2>/dev/null >/dev/null & #后台运行,不在终端上显示打印信息.
   #1标准输出,2标准错误,&1等同于1
   $PROC_WATCHDOG >/dev/null 2>&1 & #同上
+  
+  Pnum_watchdog=`GetProcNum "$PROC_WATCHDOG"`
+  RETVAL=$?
+  if [ $RETVAL -ne 0 ];then
+    return $RETVAL
+  fi
+  #如果
+  if [ $Pnum_watchdog -eq 0 ];then
+    echo "service myapp start failed! please check:"
+    #检查看门狗是否有可执行权限
+    echo "1.myapp_watchdog has the executable permissions."
+    #检查看门狗是否放到了正确的路径
+    echo "2.myapp_watchdog in the right path."
+
+    echo ""
+    return 99
+  fi
+  
   echo "service myapp start ok!"
   echo ""
   

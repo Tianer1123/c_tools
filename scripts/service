@@ -1,6 +1,6 @@
 #!/bin/bash
 #myapp              service of myapp
-#添加chkconfig功能,这一行和description必须要加.运行级别2、3、4、5，20开机启动优先级，不能太小否则可能依赖的程序还没起来。90是关闭优先级。
+#添加chkconfig功能,chkconfig和description必须要加.运行级别2、3、4、5，20开机启动优先级，不能太小否则可能依赖的程序还没起来。90是关闭优先级。
 #chkconfig: 2345 20 90                       
 #description: Start stop restart status
 #

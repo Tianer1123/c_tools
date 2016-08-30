@@ -48,16 +48,38 @@ do
 	kill -9 $id
 done
 
+#进程最多10个
+if [ $PNum -gt 11 ];then
+	PNum=11
+fi
+
 #开机后台运行$PROC_NAME进程.
 $PROC_NAME &
+#用20s的时间起服务,如果起不来在下面的循环里导致一直起不来.
+sleep 20
 
 #查找该进程的个数，如果与预设的不一致，killall掉所有进程并重启。
 while :
 do
 	ProcNumber=`ps -ef | grep -w $PROC_NAME | grep -v grep | wc -l`
-	if [ $ProcNumber -lt $PNum ];then
+	#如果进程有异常，确保每次都能把所有进程起来.否则会死循环中一直在杀进程起进程.
+	if [ $ProcNumber -eq 0 ];then
+		$PROC_NAME &
+		if [ $ProcNumber -ge 5 ];then
+			sleep 20
+		else
+			sleep 10
+		fi
+		continue
+	elif [ $ProcNumber -ne $PNum ];then
 		killall -9 $PROC_NAME
 		$PROC_NAME &
+		if [ $ProcNumber -ge 5 ];then
+			sleep 20
+		else
+			sleep 10
+		fi
+		continue
 	fi
-	sleep 1
+	sleep 2
 done

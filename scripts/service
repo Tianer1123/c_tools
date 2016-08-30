@@ -18,7 +18,7 @@ PROC_MYAPP=/path/myapp
 PROC_WATCHDOG=/path/watchdog
 
 #服务脚本中无环境变量,所以要添加.解决中文乱码的问题.
-MYAPP_LANG=`echo $LANG`
+#MYAPP_LANG=`echo $LANG`
 
 #一个提示字符串
 usage_str="See Usgage"
@@ -72,11 +72,11 @@ fi
 start() {
   #添加环境变量
   en_US.UTF-8
-  if [ $MYAPP_LANG != "en_US.UTF-8" ];then
+  if [ "$MYAPP_LANG"x != "en_US.UTF-8"x ];then
     LANG="en_US.UTF-8"
-    export $LANG
+    export LANG
   else
-    export $MYAPP_LANG
+    export MYAPP_LANG
   fi
   echo ""
   

@@ -71,7 +71,6 @@ fi
 #需要将所有的依赖程序都启动,在watchdog中已做了处理,
 start() {
   #添加环境变量
-  en_US.UTF-8
   if [ "$MYAPP_LANG"x != "en_US.UTF-8"x ];then
     LANG="en_US.UTF-8"
     export LANG

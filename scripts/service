@@ -11,6 +11,8 @@
 #4.chkconfig --add myapp_service              #开机自启myapp_service服务
 #5.service myapp_service start                #启动myapp_service服务
 
+#注意:服务启动,所有依赖都需要启动.服务停止,所有依赖都需要停止.
+
 # Source function library.
 . /etc/rc.d/init.d/functions
 

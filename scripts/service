@@ -11,6 +11,9 @@
 #4.chkconfig --add myapp_service              #开机自启myapp_service服务
 #5.service myapp_service start                #启动myapp_service服务
 
+# Source function library.
+. /etc/rc.d/init.d/functions
+
 #myapp的绝对路径
 PROC_MYAPP=/path/myapp
 
@@ -58,18 +61,18 @@ function GetPid() {
 
 #status功能：检查每一个进程的运行是否正常,并打印提示信息.
 if [ "$1" = "status" ] ; then
-  echo ""
   ProcNumber_myapp=`GetProcNum "$PROC_MYAPP"`
   if [ $ProcNumber_myapp -eq 0 ];then
     echo "myapp service not start...$usage_str!"
   else
     echo "myapp service started!"
   fi
-  echo ""
 fi
 
 #需要将所有的依赖程序都启动,在watchdog中已做了处理,
 start() {
+  #运行所有进程
+  printf "Starting service myapp..."
   #添加环境变量
   if [ "$MYAPP_LANG"x != "en_US.UTF-8"x ];then
     LANG="en_US.UTF-8"
@@ -77,23 +80,21 @@ start() {
   else
     export MYAPP_LANG
   fi
-  echo ""
   
   #执行GetProcNum函数,传递参数$PROC_WATCHDOG.并将返回值赋值给ProcNum_watchdog.
   #只要watchdog起着,其他进程都起着.如果watchdog起着，提示服务已经起来了.
   ProcNum_watchdog=`GetProcNum "$PROC_WATCHDOG"`
   RETVAL=$?
   if [ $RETVAL -ne 0 ];then
+    failure
+    echo
     return $RETVAL
   fi
   if [ $ProcNum_watchdog -ne 0 ];then  #watchdog进程在运行.
     echo "service myapp already started!"
-    echo ""
     return $RETVAL
   fi
-  
-  #运行所有进程
-  echo "Starting service myapp..."
+
   #$PROC_WATCHDOG 2>/dev/null >/dev/null & #后台运行,不在终端上显示打印信息.
   #1标准输出,2标准错误,&1等同于1
   $PROC_WATCHDOG >/dev/null 2>&1 & #同上
@@ -101,6 +102,8 @@ start() {
   Pnum_watchdog=`GetProcNum "$PROC_WATCHDOG"`
   RETVAL=$?
   if [ $RETVAL -ne 0 ];then
+    failure
+    echo
     return $RETVAL
   fi
   #如果
@@ -115,8 +118,8 @@ start() {
     return 99
   fi
   
-  echo "service myapp start ok!"
-  echo ""
+  success
+  echo
   
   RETVAL=0
   return $RETVAL
@@ -125,13 +128,14 @@ start() {
 #需要将所有的依赖程序都关闭掉,如果有顺序需要注意顺序
 stop() {
   #查看所有运行的程序并关闭掉.
-  echo ""
-  echo "Stopping service myapp..."
+  printf "Stopping service myapp..."
 
   #kill watchdog
   watch_dog=`GetPid "$PROC_WATCHDOG"`
   RETVAL=$?
   if [ $RETVAL -ne 0 ];then
+    failure
+    echo
     return $RETVAL
   fi
   for i in $watch_dog
@@ -143,15 +147,17 @@ stop() {
   my_app=`GetPid "$PROC_MYAPP"`
   RETVAL=$?
   if [ $RETVAL -ne 0 ];then
+    failure
+    echo
     return $RETVAL
   fi
   for i in $my_app
   do
     kill -9 $i
   done
-
-  echo "Stop service OK!"
-  echo ""
+  
+  success
+  echo
 
   RETVAL=0
   return $RETVAL
@@ -159,12 +165,9 @@ stop() {
 
 #start stop
 restart() {
-  echo ""
-  echo "restarting service myapp..."
+  
   stop
   start
-  echo "restart service OK!"
-  echo ""
 
   RETVAL=0
   return $RETVAL
@@ -184,7 +187,6 @@ case $1 in
   *)
     #用户使用提示信息
     echo $"Usage: service myapp {start|stop|restart|status}"
-    echo ""
     RETVAL=3
 
 esac

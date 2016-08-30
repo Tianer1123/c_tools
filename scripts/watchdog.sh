@@ -63,8 +63,10 @@ while :
 do
 	ProcNumber=`ps -ef | grep -w $PROC_NAME | grep -v grep | wc -l`
 	#如果进程有异常，确保每次都能把所有进程起来.否则会死循环中一直在杀进程起进程.
+	#如果进程无异常，只休眠2秒继续判断.
 	if [ $ProcNumber -eq 0 ];then
 		$PROC_NAME &
+		#超过5个进程就多休眠一会儿，没超过就少休眠一会.
 		if [ $ProcNumber -ge 5 ];then
 			sleep 20
 		else

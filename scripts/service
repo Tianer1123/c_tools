@@ -91,6 +91,7 @@ start() {
     return $RETVAL
   fi
   if [ $ProcNum_watchdog -ne 0 ];then  #watchdog进程在运行.
+    echo
     echo "service myapp already started!"
     return $RETVAL
   fi

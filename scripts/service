@@ -17,6 +17,9 @@ PROC_MYAPP=/path/myapp
 #watchdog绝对路径.通过watchdog来启动程序.
 PROC_WATCHDOG=/path/watchdog
 
+#服务脚本中无环境变量,所以要添加.解决中文乱码的问题.
+MYAPP_LANG=`echo $LANG`
+
 #一个提示字符串
 usage_str="See Usgage"
 
@@ -67,6 +70,14 @@ fi
 
 #需要将所有的依赖程序都启动,在watchdog中已做了处理,
 start() {
+  #添加环境变量
+  en_US.UTF-8
+  if [ $MYAPP_LANG != "en_US.UTF-8" ];then
+    LANG="en_US.UTF-8"
+    export $LANG
+  else
+    export $MYAPP_LANG
+  fi
   echo ""
   
   #执行GetProcNum函数,传递参数$PROC_WATCHDOG.并将返回值赋值给ProcNum_watchdog.

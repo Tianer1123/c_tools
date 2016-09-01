@@ -89,3 +89,14 @@ echo `alias cmd="command seq"` >> ~/.bashrc #追加到配置文件中
 #获取终端信息
 tput cols #获取终端行数
 tput lines #获取终端列数
+tput longname #打印终端名
+tput cup 100 100 #光标移动到坐标（100， 100）
+tput setb n #设置终端背景 n数字
+tput setf n #设置文本前景色 n数字
+tput bold #设置文本为粗体
+tput smul #下划线起始
+tput rmul #下划线终止
+tputed #删除光标到行尾的所有内容
+
+############################################
+

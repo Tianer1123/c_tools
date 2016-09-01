@@ -100,3 +100,45 @@ tputed #删除光标到行尾的所有内容
 
 ############################################
 
+#日期
+
+date  #读取日期
+
+date +%s #时间戳
+
+date "+%d %B %Y" #date +按指定格式输出日期
+
+date -s "格式化日期字符串" #设置日期和时间
+
+#-------------------------
+#检查一组命令锁话费的时间
+#!/bin/bash
+#time_take.sh
+start=$(date +%s)
+commands;
+statements;
+end=$(date +%s)
+difference=$((end - start))
+echo Time taken to execute commands is $difference seconds.
+#-------------------------
+
+############################################
+
+#脚本调试
+
+sh -x script  #-x 启动调试功能.
+set -x
+command
+set +x  
+#只对 -x 和 +x中间的部分调试
+
+# set -x: 在执行时显示参数和命令.
+# set +x: 禁止调试.
+# set -v: 当命令进行读取时显示输入.
+# set +v: 禁止打印输入.
+
+#!/bin/bash -xv 启用调试功能
+
+############################################
+
+#函数和参数

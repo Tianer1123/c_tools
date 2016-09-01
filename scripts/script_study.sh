@@ -142,3 +142,60 @@ set +x
 ############################################
 
 #函数和参数
+function fname()
+{
+	statements;
+}
+#或者
+fname()
+{
+	statements;
+}
+
+#执行函数
+fname ;
+#传递参数
+fname arg1 arg2;
+
+
+fname() {
+	echo $1, $2; #访问参数1，参数2
+	echo "$@"; #以列表方式一次性打印所有参数 常用
+	echo "$*"; #类似$@，把参数作为整体,但不常用
+	return 0; #返回值
+}
+
+#导出函数
+export -f fname
+
+
+#返回值
+cmd;
+echo $? # $?会给出cmd的返回值 0 -- 成功，非0 -- 不成功
+
+#例：
+#!/bin/bash
+#success_test.sh
+CMD="command" #要执行的命令
+$CMD
+if [ $? -eq 0 ];
+then
+	echo "$CMD executed successfully"
+else
+	echo "$CMD terminated unsuccessfully"
+fi
+
+
+############################################
+
+#过滤器|管道
+
+cmd1 | cmd2 | cmd3  # | 管道符cmd1输出传递给cmd2，cmd2输出传递给cmd3
+
+
+cmd_output=$(ls | cat -n) #子shell
+echo $cmd_output
+
+cmd_output=`ls | cat -n` #反引用
+
+

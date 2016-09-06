@@ -216,3 +216,17 @@ read -t 2 var    #在2s内将键入的字符读入变量var
 #read -d delim_char var  #用特定的定界符作为输入行的结束
 read -d ":" var #hello:     var被设置为hello
 
+############################################
+
+#运行命令直到执行成功
+
+repeat() {
+	while true #不建议使用while true 而用 while :,while true不停的创建一个进程.
+	do
+		$@ && return #$@是参数命令
+	done
+}
+
+#更快的做法
+repeat() { while :; do $@ && return; done }
+

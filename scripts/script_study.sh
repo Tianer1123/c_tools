@@ -199,3 +199,20 @@ echo $cmd_output
 cmd_output=`ls | cat -n` #反引用
 
 
+############################################
+
+#read ：用于从键盘或标准输入读取文本
+
+#read -n number_of_chars variable_name
+read -n 2 var   #读取2个字符
+
+read -s var     #以无回显方式读取密码
+
+read -p "Enter input:" var #显示提示信息
+
+#read -t timeout var
+read -t 2 var    #在2s内将键入的字符读入变量var
+
+#read -d delim_char var  #用特定的定界符作为输入行的结束
+read -d ":" var #hello:     var被设置为hello
+

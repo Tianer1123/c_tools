@@ -113,3 +113,5 @@ struct MemoryBlock
 4. 继续判断：
 	1. 如果所在内存块都是自由的,内存块返回给堆.
 	2. 如果有非自由的,移动该内存块到链表头部.(减少遍历`MemoryPool`遍历次数)
+
+[参考文档:C++ 应用程序性能优化，第 6 章：内存池](http://www.ibm.com/developerworks/cn/linux/l-cn-ppp/index6.html#icomments)

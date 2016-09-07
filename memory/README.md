@@ -67,3 +67,19 @@ struct MemoryBlock
 
 
 ![memp1](https://github.com/Tianer1123/c_tools/blob/master/memory/img/mempool1.png)
+
+
+#####机制
+
+**内存块**
+
+MemoryPool内存池是从堆中申请的较大连续内存区域.包含:
+* MemoryBlock内存块:组成链表,MemoryPool的pBlock是内存块的链表头.
+* 内存单元
+
+**内存单元**
+* 大小固定(MemoryPool->nUnitSize).
+* 有两个重要成员:nFree和nFirst.
+	1. nFree: 内存块还有多少自由分配单元.
+	2. nFirst: 记录下一个可供分配的单元的编号(头两个字节记录下一个内存单元的编号，由此链在一起).
+

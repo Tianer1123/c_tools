@@ -5,3 +5,59 @@
     内存池可以分为单线程内存池和多线程内存池。
 2. 按可分配的内存大小
     可以分为固定内存池和可变内存池。
+#####原理
+内存池，内存块，内存单元
+
+在内存池初次生成时，只向系统申请了一个内存块，返回的指针作为整个内存池的头指针。
+内存池判断需要动态扩大时，才再次向系统申请新的内存块，并把所有这些内存块通过指针链接起来。
+
+#####实例
+这是一个应用于单线程环境且分配单元大小固定的内存池，一般用来为执行时会动态频繁地创建且可能会被多次创建的类对象或者结构体分配内存。
+
+**MemoryPool:**
+```
+class MemoryPool
+{
+	private:
+		MemoryBlock*   pBlock;
+		USHORT          nUnitSize;
+		USHORT          nInitSize;
+		USHORT          nGrowSize;
+
+	public:
+		MemoryPool( USHORT nUnitSize,
+				USHORT nInitSize = 1024,
+				USHORT nGrowSize = 256 );
+		~MemoryPool();
+
+		void*           Alloc();
+		void            Free( void* p );
+};
+```
+
+**MemoryBlock:**
+```
+struct MemoryBlock
+{
+	USHORT          nSize;
+	USHORT          nFree;
+	USHORT          nFirst;
+	USHORT          nDummyAlign1;
+	MemoryBlock*  pNext;
+	char            aData[1];
+
+	static void* operator new(size_t, USHORT nTypes, USHORT nUnitSize)
+	{
+		return ::operator new(sizeof(MemoryBlock) + nTypes * nUnitSize);
+	}
+	static void  operator delete(void *p, size_t)
+	{
+		::operator delete (p);
+	}
+
+	MemoryBlock (USHORT nTypes = 1, USHORT nUnitSize = 0);
+	~MemoryBlock() {}
+};
+```
+
+**图内部数据结构：**

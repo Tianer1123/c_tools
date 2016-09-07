@@ -85,6 +85,7 @@ struct MemoryBlock
 * 内存单元编号：每一个内存连续的编号(比如3块内存单元,编号分别为0,1,2)
 
 **内存请求,有可用内存块**
+
 1. 遍历`MemoryPool`中的`MemoryBlock`链表.
 2. 找到有可用内存单元的`MemoryBlock`.(`MemoryBlock->nFree > 0`)
 3. 获取`MemoryBlock->nFirst`值,定位到申请内存的其实地址.
@@ -93,6 +94,7 @@ struct MemoryBlock
 6. 返回这个地址.
 
 **无可用内存单元**
+
 1. `MemoryPool`从堆中申请一个内存块.
 2. 初始化内存块.
 	1. `nSize`为所有内存单元的大小.
@@ -102,6 +104,7 @@ struct MemoryBlock
 3. `aData[1]`是内存单元的开始.
 
 **delete**
+
 1. `delete`不反回堆，返回`MemoryPool`.
 2. 返回时，`MemoryPool`需要知道该单元的起始地址.
 3. 遍历内存块,检测该地址是否在内存块地址内.

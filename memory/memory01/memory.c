@@ -26,8 +26,8 @@ void create_memory_pool(struct MemoryPool *mpool, u16 nUnitSize,
 struct MemoryBlock *_mem_malloc(struct MemoryPool *mpool)
 {
 	/* 从堆中申请空间 */
-	struct MemoryBlock *pBlock =
-	(struct MemoryBlock *)malloc(sizeof(struct MemoryBlock) + mpool->nGrowSize * mpool->nUnitSize);
+	int size = sizeof(struct MemoryBlock) + mpool->nGrowSize * mpool->nUnitSize;
+	struct MemoryBlock *pBlock = (struct MemoryBlock *)malloc(size);
 	if (!pBlock) {
 		return NULL;
 	}

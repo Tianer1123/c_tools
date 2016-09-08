@@ -117,7 +117,7 @@ struct MemoryBlock
 	2. 如果有非自由的,移动该内存块到链表头部.(减少遍历`MemoryPool`遍历次数)
 
 ##代码
-[memory01](https://github.com/Tianer1123/c_tools/blob/master/memory/memory01/)为c语言版本的源码.
+目录[memory01/](https://github.com/Tianer1123/c_tools/blob/master/memory/memory01/)中为c语言版本的源码.
 
 ##参考文档
 [C++ 应用程序性能优化，第 6 章：内存池](http://www.ibm.com/developerworks/cn/linux/l-cn-ppp/index6.html#icomments)

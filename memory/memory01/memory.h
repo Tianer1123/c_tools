@@ -28,8 +28,13 @@ struct MemoryPool
 void create_memory_pool(struct MemoryPool *mpool, u16 nUnitSize, 
 				u16 nInitSize, u16 nGrowSize);
 
+/* 申请内存 */
 void *mem_malloc(struct MemoryPool *mpool);
 
+/* 释放内存 */
 void mem_free(struct MemoryPool *mpool, void *pFree);
+
+/* 销毁内存池 */
+void destory_memory_pool(struct MemoryPool *mpool);
 
 #endif //__MEMORY_H__

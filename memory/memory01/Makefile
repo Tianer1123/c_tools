@@ -1,6 +1,6 @@
 CC=gcc
-INCL=-I ./
-CFLAGS= $(INCL) -Wall -c -g
+INCL=-I./
+CFLAGS=-Wall -c -g $(INCL)
 
 TARGET=test
 

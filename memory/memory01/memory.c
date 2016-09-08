@@ -163,3 +163,17 @@ void mem_free(struct MemoryPool *mpool, void *pFree)
 		mpool->pBlock = pBlock;
 	}
 }
+
+/* 销毁内存池 */
+void destory_memory_pool(struct MemoryPool *mpool)
+{
+	struct MemoryBlock *pBlock = mpool->pBlock;
+	struct MemoryBlock *ptmp;
+	while (pBlock) {
+		ptmp = pBlock;
+		pBlock = pBlock->pNext;
+
+		free(ptmp);
+		ptmp = NULL;
+	}
+}

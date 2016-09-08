@@ -36,9 +36,10 @@ struct MemoryBlock *_mem_malloc(struct MemoryPool *mpool)
 	pBlock->nSize = mpool->nUnitSize * mpool->nGrowSize;
 	pBlock->nFree = mpool->nGrowSize - 1; /* 要立即返回1个内存单元 */
 	pBlock->nFirst = 1;
+	pBlock->pPrev = NULL;
 	pBlock->pNext = NULL;
 
-	/* 初始化每个内存单元的编号 */
+	/* 初始化每个内存单元的编号，初始化时有顺序，实际情况可能乱序,靠编号链接 */
 	char *pData = pBlock->aData;
 	u16 i = 0;
 	for (; i < mpool->nGrowSize; i++) {
@@ -86,8 +87,78 @@ void *mem_malloc(struct MemoryPool *mpool)
 
 		/* 将申请好的内存块放到链表头 */
 		pBlock->pNext = mpool->pBlock;
+		pBlock->pNext->pPrev = pBlock;
 		mpool->pBlock = pBlock;
 
 		return (void *)(pBlock->aData);
+	}
+}
+
+/* 释放内存 */
+void mem_free(struct MemoryPool *mpool, void *pFree)
+{
+	/* 当前内存块 */
+	struct MemoryBlock *pBlock = mpool->pBlock;
+
+	/* 比较每一个内存块,判断pFree是否在其中 */
+	while(pBlock) {
+		if (((UL)pFree < (UL)pBlock->aData) ||
+		((UL)pFree >= ((UL)pBlock->aData + pBlock->nSize))) {
+			pBlock = pBlock->pNext;
+		}
+		else {
+			break;
+		}
+	}
+
+	/* 如果pFree不属于内存池，直接free返回给堆 */
+	if (!pBlock) {
+		free(pFree);
+		pFree = NULL;
+		return;
+	}
+
+	/* 如果属于内存池 */
+	pBlock->nFree++;
+	/* 将内存块中的内存单元串起来.
+	 * 原来的第一个自由内存单元作为刚释放的内存单元的下一个自由内存单元.
+	 * 刚释放的内存单元作为第一个自由的内存单元.
+	 * 只是编号变，内存地址不变.
+	 * */
+	*((u16 *)pFree) = pBlock->nFirst;
+	pBlock->nFirst = (u16)(((UL)pFree - (UL)pBlock->aData) / mpool->nUnitSize);
+
+	/* 如果该内存块全部是自由的内存单元,返回内存块给堆 */
+	if (pBlock->nFree * mpool->nUnitSize == pBlock->nSize) {
+		/* 如果是第一个内存块 */
+		if (pBlock == mpool->pBlock) {
+			mpool->pBlock = pBlock->pNext;
+			if (pBlock->pNext)
+				mpool->pBlock->pPrev = NULL;
+		}
+		else {
+			pBlock->pPrev->pNext = pBlock->pNext;
+			if (pBlock->pNext)
+				pBlock->pNext->pPrev = pBlock->pPrev;
+		}
+		free(pBlock);
+		pBlock = NULL;
+	}
+	/* 否则移动到链表头 */
+	else {
+		/* 如果是第一个内存块 */
+		if (pBlock == mpool->pBlock) {
+			return;
+		}
+
+		/* 从链表中移出 */
+		pBlock->pPrev->pNext = pBlock->pNext;
+		if (pBlock->pNext)
+			pBlock->pNext->pPrev = pBlock->pPrev;
+			
+		/* 插到链表头 */
+		pBlock->pNext = mpool->pBlock;
+		pBlock->pPrev = NULL;
+		mpool->pBlock = pBlock;
 	}
 }

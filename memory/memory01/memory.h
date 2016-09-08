@@ -2,6 +2,7 @@
 #define __MEMORY_H__
 
 typedef unsigned short u16;
+/* 根据不同平台，指针和long类型字节数相同 */
 typedef unsigned long  UL;
 
 #define MEMPOOL_ALIGNMENT 4

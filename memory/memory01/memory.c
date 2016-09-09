@@ -1,4 +1,5 @@
 #include <stdlib.h>
+#include <stdio.h>
 #include "memory.h"
 
 /* 初始化创建内存池 */
@@ -88,8 +89,6 @@ void *mem_malloc(struct MemoryPool *mpool)
 		/* 将申请好的内存块放到链表头 */
 		if (!mpool->pBlock) {
 			mpool->pBlock = pBlock;
-			pBlock->pNext = NULL;
-			pBlock->pPrev = NULL;
 		}
 		else {
 			pBlock->pNext = mpool->pBlock;

@@ -86,9 +86,16 @@ void *mem_malloc(struct MemoryPool *mpool)
 		}
 
 		/* 将申请好的内存块放到链表头 */
-		pBlock->pNext = mpool->pBlock;
-		pBlock->pNext->pPrev = pBlock;
-		mpool->pBlock = pBlock;
+		if (!mpool->pBlock) {
+			mpool->pBlock = pBlock;
+			pBlock->pNext = NULL;
+			pBlock->pPrev = NULL;
+		}
+		else {
+			pBlock->pNext = mpool->pBlock;
+			pBlock->pNext->pPrev = pBlock;
+			mpool->pBlock = pBlock;
+		}
 
 		return (void *)(pBlock->aData);
 	}

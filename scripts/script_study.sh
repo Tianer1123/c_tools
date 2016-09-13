@@ -230,3 +230,58 @@ repeat() {
 #更快的做法
 repeat() { while :; do $@ && return; done }
 
+############################################
+
+#分隔符   循环
+
+#分隔符IFS="." 默认是空格
+
+#例1
+data="name,sex,rollno,location"
+oldIFS=$IFS
+IFS=,
+for item in $data;
+do
+	echo Item: $item
+done
+IFS=$oldIFS
+
+
+#例2
+#!/bin/bash
+#用途:演示IFS的用法
+line="root:x:0:0:root:/root:/bin/bash"
+oldIFS=$IFS;
+IFS=":"
+count=0
+for item in $line;
+do
+	[ $count -eq 0 ] && user=$item;
+	[ $count -eq 6 ] && shell=$item;
+	let count++
+done
+IFS=$oldIFS
+echo $user\'s shell is $shell;
+
+
+#循环
+
+#for 循环
+for var in list;
+do
+	commands; #使用变量$var
+done
+
+#while循环
+#用true作为循环条件能够产生无限循环。
+while condition
+do
+	commands;
+done
+
+#until循环
+x=0;
+until [ $x -eq 9 ]; #条件是[$x -eq 9 ]
+do
+	let x++; echo $x;
+done

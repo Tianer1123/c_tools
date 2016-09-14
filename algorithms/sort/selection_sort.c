@@ -19,9 +19,9 @@ void selection_sort(char *src, int size)
 	char tmp;
 
 	
-	for (i = 0; i < size - 1; i++) {
+	for (i = 0; i < size; i++) {
 		min = i;
-		for (j = i; j < size; j++) {
+		for (j = i + 1; j < size; j++) {
 			if (src[min] > src[j]) {
 				min = j;
 			}

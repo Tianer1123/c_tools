@@ -19,7 +19,7 @@ void parse_tagert(void *ptr, int len)
 int deal_pattern (ACSM_PATTERN * pattern, ACSM_PATTERN * mlist, void *id, int index)
 {
 	pattern_struct_t *ps = (pattern_struct_t *)id;
-	printf("patrn:%s, index:%d, id:%d\n", mlist->patrn, index, ps->id);
+	printf("patrn:%s, casepatrn:%s, index:%d, id:%d\n", mlist->patrn, mlist->casepatrn, index, ps->id);
 	ps->func(ps->ptr, ps->len);
 	return 0;
 }

@@ -1,49 +1,54 @@
 #include <stdio.h>
 #include "acsmx.h"
 
-int printMatch(ACSM_PATTERN * pattern,ACSM_PATTERN * mlist, int nline,int index)
+typedef struct _pattern_struct
 {
+	int id;
+	void *ptr;
+	int len;
+	void (*func)(void *ptr, int len);
+}pattern_struct_t;
 
-	if (*(int16_t *)mlist->patrn == 0x0a0d) {
-		return 0;     
-	}
-	//return 1;
-	/* Count the Each Match Pattern */
-	ACSM_PATTERN *temp = pattern;
-	for (;temp!=NULL;temp=temp->next)
-	{
-		if (!strcmp(temp->patrn,mlist->patrn)) //strcmp succeed return 0,So here use "!" operation
-		{
-			temp->nmatch++;
-		}
-
-	}
-
-	if(mlist->nocase)
-		fprintf (stdout, "Match KeyWord %s at %d line %d char\n", mlist->patrn,nline,index);
-	else
-		fprintf (stdout, "Match KeyWord %s at %d line %d char\n", mlist->casepatrn,nline,index);
-
-	return 1;
+void parse_tagert(void *ptr, int len)
+{
+	printf("payload:%s\n", ptr);
+	printf("payload_len:%d\n", len);
 }
-				
+
+
+int deal_pattern (ACSM_PATTERN * pattern, ACSM_PATTERN * mlist, void *id, int index)
+{
+	pattern_struct_t *ps = (pattern_struct_t *)id;
+	printf("patrn:%s, index:%d, id:%d\n", mlist->patrn, index, ps->id);
+	ps->func(ps->ptr, ps->len);
+	return 0;
+}
 
 int main(int argc, char **argv)
 {
 	int nocase = 0;
 	char *main_str = "abcdefwhersacdsef";
-	char *p1 = "she";
-	char *p2 = "his";
-	char *p3 = "hers";
+	unsigned char *p1 = "she";
+	unsigned char *p2 = "his";
+	unsigned char *p3 = "hers";
+	pattern_struct_t pt1;
+	pattern_struct_t pt2;
+	pattern_struct_t pt3;
+	pt3.id = 1001;
+	pt3.ptr = (void *)main_str;
+	pt3.len = strlen(main_str);
+	pt3.func = parse_tagert;
+
 	ACSM_STRUCT * acsm;
 	acsm = acsmNew();
-	acsmAddPattern(acsm, p1, strlen(p1), nocase);
-	acsmAddPattern(acsm, p2, strlen(p2), nocase);
-	acsmAddPattern(acsm, p3, strlen(p3), nocase);
+	acsmAddPattern(acsm, p1, strlen(p1), (void *)&pt1, nocase);
+	acsmAddPattern(acsm, p2, strlen(p2), (void *)&pt2, nocase);
+	acsmAddPattern(acsm, p3, strlen(p3), (void *)&pt3, nocase);
 
 	acsmCompile(acsm);
 
-	acsmSearch(acsm, main_str, strlen(main_str), printMatch);
+	acsmSearch(acsm, main_str, strlen(main_str), deal_pattern);
 
+	acsmFree(acsm);
 	return 0;
 }

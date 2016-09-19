@@ -81,12 +81,12 @@ typedef struct {
 *   Prototypes
 */
 ACSM_STRUCT * acsmNew ();
-int acsmAddPattern( ACSM_STRUCT * p, const unsigned char * pat, int n,int nocase);
+int acsmAddPattern( ACSM_STRUCT * p, const unsigned char * pat, int n, void *id, int nocase);
 int acsmCompile ( ACSM_STRUCT * acsm );
 //int acsmSearch ( ACSM_STRUCT * acsm,unsigned char * T, int n, int (*Match) (ACSM_PATTERN * pattern,ACSM_PATTERN * mlist, int nline,int index));
-int acsmSearch (ACSM_STRUCT * acsm, unsigned char *Tx, int n,int (*PrintMatch) (ACSM_PATTERN * pattern,ACSM_PATTERN * mlist, int nline,int index));
+int acsmSearch (ACSM_STRUCT * acsm, unsigned char *Tx, int n,int (*deal_pattern) (ACSM_PATTERN * pattern,ACSM_PATTERN * mlist, void *id,int index));
 void acsmFree ( ACSM_STRUCT * acsm );
-void PrintMatch (ACSM_PATTERN * pattern,ACSM_PATTERN * mlist, int nline,int index) ;
+//void PrintMatch (ACSM_PATTERN * pattern,ACSM_PATTERN * mlist, int nline,int index) ;
 void PrintSummary (ACSM_PATTERN * pattern) ;
 
 #endif

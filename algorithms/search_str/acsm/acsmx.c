@@ -64,9 +64,6 @@
   
 #define MEMASSERT(p,s) if(!p){fprintf(stderr,"ACSM-No Memory: %s!\n",s);exit(0);}  
   
-/*Define the number of the line,when match a keyword*/  
-extern int nline=1;  
-  
 /* 
 * Malloc the AC Memory 
 */   
@@ -364,7 +361,7 @@ ACSM_STRUCT * acsmNew ()
 /* 
 *   Add a pattern to the list of patterns for this state machine 
 */   
-int acsmAddPattern (ACSM_STRUCT * p, const unsigned char *pat, int n, int nocase)   
+int acsmAddPattern (ACSM_STRUCT * p, const unsigned char *pat, int n, void *id, int nocase)   
 {  
     ACSM_PATTERN * plist;  
     plist = (ACSM_PATTERN *) AC_MALLOC (sizeof (ACSM_PATTERN));  
@@ -375,9 +372,10 @@ int acsmAddPattern (ACSM_STRUCT * p, const unsigned char *pat, int n, int nocase
     plist->casepatrn = (unsigned char *) AC_MALLOC (n+1);  
     memset(plist->casepatrn+n,0,1);  
     memcpy (plist->casepatrn, pat, n);  
-    plist->n = n;  
+	plist->n = n;
     plist->nocase = nocase;  
     plist->nmatch=0;  
+	plist->id = id;
   
     /*Add the pattern into the pattern list*/  
     plist->next = p->acsmPatterns;  
@@ -446,7 +444,7 @@ static unsigned char Tc[64*1024];
 /* 
 *   Search Text or Binary Data for Pattern matches 
 */   
-int acsmSearch (ACSM_STRUCT * acsm, unsigned char *Tx, int n,int (*PrintMatch) (ACSM_PATTERN * pattern,ACSM_PATTERN * mlist, int nline,int index))   
+int acsmSearch (ACSM_STRUCT * acsm, unsigned char *Tx, int n, int (*deal_pattern) (ACSM_PATTERN * pattern, ACSM_PATTERN * mlist, void *id, int index))   
 {  
     int state;  
     ACSM_PATTERN * mlist;  
@@ -478,7 +476,7 @@ int acsmSearch (ACSM_STRUCT * acsm, unsigned char *Tx, int n,int (*PrintMatch) (
   
                 //mlist->nmatch++;  
                 nfound++;  
-                return PrintMatch (acsm->acsmPatterns,mlist, nline,index);  
+                return deal_pattern(acsm->acsmPatterns, mlist, mlist->id, index); 
             }  
         }  
     }  

@@ -20,7 +20,8 @@ int deal_pattern (ACSM_PATTERN * pattern, ACSM_PATTERN * mlist, void *id, int in
 {
 	pattern_struct_t *ps = (pattern_struct_t *)id;
 	printf("patrn:%s, casepatrn:%s, index:%d, id:%d\n", mlist->patrn, mlist->casepatrn, index, ps->id);
-	ps->func(ps->ptr, ps->len);
+	if (ps->func)
+		ps->func(ps->ptr, ps->len);
 	return 0;
 }
 
@@ -31,9 +32,11 @@ int main(int argc, char **argv)
 	unsigned char *p1 = "she";
 	unsigned char *p2 = "his";
 	unsigned char *p3 = "hers";
+	unsigned char *p4 = "dse";
 	pattern_struct_t pt1;
 	pattern_struct_t pt2;
 	pattern_struct_t pt3;
+	pattern_struct_t pt4;
 	pt3.id = 1001;
 	pt3.ptr = (void *)main_str;
 	pt3.len = strlen(main_str);
@@ -44,6 +47,7 @@ int main(int argc, char **argv)
 	acsmAddPattern(acsm, p1, strlen(p1), (void *)&pt1, nocase);
 	acsmAddPattern(acsm, p2, strlen(p2), (void *)&pt2, nocase);
 	acsmAddPattern(acsm, p3, strlen(p3), (void *)&pt3, nocase);
+	acsmAddPattern(acsm, p4, strlen(p4), (void *)&pt4, nocase);
 
 	acsmCompile(acsm);
 

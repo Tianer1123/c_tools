@@ -285,3 +285,59 @@ until [ $x -eq 9 ]; #条件是[$x -eq 9 ]
 do
 	let x++; echo $x;
 done
+
+############################################
+
+#比较与测试
+
+if condition;
+then
+	commands;
+else if condition; then
+	commands;
+else
+	commands;
+fi
+
+#算术比较
+[ $var -eq 0 ]
+
+# -eq :等于
+# -ne :不等于
+# -gt :大于
+# -lt :小于
+# -ge :大于或等于
+# -le :小于后等于
+
+#多条件
+[ $var1 -ne 0 -a $var2 -gt 2 ] #逻辑与-a
+[ $var1 -ne 0 -o $var2 -gt 2 ] #逻辑或-o
+
+#文件系统相关判断
+# [ -f $file_var ]：如果给定的变量包含正常的文件路径或文件名，则返回真。
+# [ -x $var ]：如果给定的变量包含的文件可执行，则返回真。
+# [ -d $var ]：如果给定的变量包含的是目录，则返回真。
+# [ -e $var ]：如果给定的变量包含的文件存在，则返回真。
+# [ -c $var ]：如果给定的变量包含的是一个字符设备文件的路径，则返回真。
+# [ -b $var ]：如果给定的变量包含的是一个块设备文件的路径，则返回真。
+# [ -w $var ]：如果给定的变量包含的文件可写，则返回真。
+# [ -r $var ]：如果给定的变量包含的文件可读，则返回真。
+# [ -L $var ]：如果给定的变量包含的是一个符号链接，则返回真。
+
+#例如：
+fpath="/etc/passwd"
+if [ -e $fpath ]; then
+	echo File exists;
+else
+	echo Does not exist;
+fi
+
+#字符串比较
+#最好用双括号,单括号可能有问题，尽量避免
+ [[ $str1 = $str2 ]] #str1等于str2时返回真.
+ [[ $str1 == $str2 ]] #是否相等的另一种写法.
+ [[ $str1 != $str2 ]] #不等判断.
+
+ [[ $str1 > $str2 ]] #str1字母序比str2大
+ [[ $str1 < $str2 ]] #str1字母序比str2小
+ 

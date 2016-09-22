@@ -807,7 +807,9 @@ AddMatchListEntry (ACSM_STRUCT2 * acsm, int state, ACSM_PATTERN2 * px)
 	acsm->acsmMatchList[state] = p;
 }
 
-
+/*
+ * 将pattern添加到状态转换表中
+ * */
 	static void
 AddPatternStates (ACSM_STRUCT2 * acsm, ACSM_PATTERN2 * p)
 {
@@ -823,6 +825,7 @@ AddPatternStates (ACSM_STRUCT2 * acsm, ACSM_PATTERN2 * p)
 
 	/*
 	 *  Match up pattern with existing states
+	 *  如果有前缀相同,直接在存在的pattern中找到不匹配的状态并添加.
 	 */
 	for (; n > 0; pattern++, n--)
 	{
@@ -838,6 +841,7 @@ AddPatternStates (ACSM_STRUCT2 * acsm, ACSM_PATTERN2 * p)
 
 	/*
 	 *   Add new states for the rest of the pattern bytes, 1 state per byte
+	 *   添加新状态到状态转换表中.
 	 */
 	for (; n > 0; pattern++, n--)
 	{
@@ -856,6 +860,7 @@ AddPatternStates (ACSM_STRUCT2 * acsm, ACSM_PATTERN2 * p)
 /*
  *   Build A Non-Deterministic Finite Automata
  *   The keyword state table must already be built, via AddPatternStates().
+ *   不确定有限状态机
  */
 	static void
 Build_NFA (ACSM_STRUCT2 * acsm)
@@ -1871,7 +1876,10 @@ _acsmCompile2(
 
 	acsm->acsmMaxStates++; /* one extra */
 
-	/* Alloc a List based State Transition table */
+	/* 
+	 * Alloc a List based State Transition table 
+	 * 创建一个状态转换表(go-to表)
+	 * */
 	acsm->acsmTransTable =
 		(trans_node_t**)AC_MALLOC(sizeof(trans_node_t*) * acsm->acsmMaxStates,
 				ACSM2_MEMORY_TYPE__TRANSTABLE);
@@ -1884,7 +1892,10 @@ _acsmCompile2(
 				acsm2_total_memory, acsm->acsmMaxStates, acsm->acsmNumStates);
 	}
 
-	/* Alloc a MatchList table - this has a lis tof pattern matches for each state, if any */
+	/*
+	 * Alloc a MatchList table - this has a lis tof pattern matches for each state, if any 
+	 * 相当于是out-put表.
+	 * */
 	acsm->acsmMatchList =
 		(ACSM_PATTERN2 **)AC_MALLOC(sizeof(ACSM_PATTERN2*) * acsm->acsmMaxStates,
 				ACSM2_MEMORY_TYPE__MATCHLIST);
@@ -1900,7 +1911,7 @@ _acsmCompile2(
 	}
 
 	/* Initialize state zero as a branch */
-	acsm->acsmNumStates = 0;
+	acsm->acsmNumStates = 0; //每次增加一个pattern,都从0状态开始.
 
 	/* Add each Pattern to the State Table - This forms a keywords state table  */
 	for (plist = acsm->acsmPatterns; plist != NULL; plist = plist->next)
@@ -1936,7 +1947,10 @@ _acsmCompile2(
 		acsm->sizeofstate = 4;
 	}
 
-	/* Alloc a failure table - this has a failure state, and a match list for each state */
+	/*
+	 * Alloc a failure table - this has a failure state, and a match list for each state 
+	 * 失败状态转换表
+	 * */
 	acsm->acsmFailState =
 		(acstate_t*)AC_MALLOC(sizeof(acstate_t) * acsm->acsmNumStates,
 				ACSM2_MEMORY_TYPE__FAILSTATE);
@@ -3367,12 +3381,12 @@ int acsmPrintSummaryInfo2(void)
 
 int myMatch(void *id, void *tree, int index, void *data, void *neg_list)
 {
-	printf("id:%s %s\n", (char *)id, (char *)data);
+	printf("id:%s(%d) in %s\n", (char *)id, index, (char *)data);
 	return 0;
 }
 int main(int argc, char **argv)
 {
-	char *str = "afdfdaHelloWorldfdhfdlj\n";
+	char *str = "afdfdaHelloWorldfdhfdlj";
 
 	char *p1 = "HelloWorld";
 	char *p2 = "abc";
@@ -3387,8 +3401,8 @@ int main(int argc, char **argv)
 
 	acsmCompile2(acsm, NULL, NULL);
 
-	int current_state = 1;
-	acsmSearch2(acsm, str, strlen(str), myMatch, "found", &current_state);
+	int current_state = 0;
+	acsmSearch2(acsm, str, strlen(str), myMatch, str, &current_state);
 
 	acsmFree2(acsm);
 

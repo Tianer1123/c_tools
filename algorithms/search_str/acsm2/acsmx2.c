@@ -3387,13 +3387,14 @@ int myMatch(void *id, void *tree, int index, void *data, void *neg_list)
 int main(int argc, char **argv)
 {
 	s_verbose = 1;
-	char *str = "afdfdaHelloWorldfdhfdlj";
+	char *str = "afdfdaHelloWorldfd你好hfdlj";
 
 	char *p1 = "HelloWorld";
 	char *p2 = "abc";
 	char *p3 = "dlj";
 	char *p4 = "lloW";
 	char *p5 = "rld";
+	char *p6 = "你好";
 
 	ACSM_STRUCT2 *acsm;
 	acsm = acsmNew2(NULL, NULL, NULL);
@@ -3403,6 +3404,7 @@ int main(int argc, char **argv)
 	acsmAddPattern2(acsm, p3, strlen(p3), 1, 0, 0, 0, p3, 103);
 	acsmAddPattern2(acsm, p4, strlen(p4), 1, 0, 0, 0, p4, 104);
 	acsmAddPattern2(acsm, p5, strlen(p5), 1, 0, 0, 0, p5, 105);
+	acsmAddPattern2(acsm, p6, strlen(p6), 1, 0, 0, 0, p6, 106);
 
 	acsmCompile2(acsm, NULL, NULL);
 

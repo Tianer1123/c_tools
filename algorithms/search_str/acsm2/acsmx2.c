@@ -3386,7 +3386,7 @@ int myMatch(void *id, void *tree, int index, void *data, void *neg_list)
 }
 int main(int argc, char **argv)
 {
-	s_verbose = 0;
+	s_verbose = 1;
 	char *str = "afdfdaHelloWorldfdhfdlj";
 
 	char *p1 = "HelloWorld";

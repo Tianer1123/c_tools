@@ -3386,28 +3386,32 @@ int myMatch(void *id, void *tree, int index, void *data, void *neg_list)
 }
 int main(int argc, char **argv)
 {
+	s_verbose = 0;
 	char *str = "afdfdaHelloWorldfdhfdlj";
 
 	char *p1 = "HelloWorld";
 	char *p2 = "abc";
 	char *p3 = "dlj";
+	char *p4 = "lloW";
+	char *p5 = "rld";
 
 	ACSM_STRUCT2 *acsm;
 	acsm = acsmNew2(NULL, NULL, NULL);
 
 	acsmAddPattern2(acsm, p1, strlen(p1), 1, 0, 0, 0, p1, 101);
 	acsmAddPattern2(acsm, p2, strlen(p2), 1, 0, 0, 0, p2, 102);
-	acsmAddPattern2(acsm, p2, strlen(p2), 1, 0, 0, 0, p3, 103);
+	acsmAddPattern2(acsm, p3, strlen(p3), 1, 0, 0, 0, p3, 103);
+	acsmAddPattern2(acsm, p4, strlen(p4), 1, 0, 0, 0, p4, 104);
+	acsmAddPattern2(acsm, p5, strlen(p5), 1, 0, 0, 0, p5, 105);
 
 	acsmCompile2(acsm, NULL, NULL);
 
 	int current_state = 0;
-	acsmSearch2(acsm, str, strlen(str), myMatch, str, &current_state);
+	/*acsmSearch2(acsm, str, strlen(str), myMatch, str, &current_state);*/
+	acsmSearchAll2(acsm, str, strlen(str), myMatch, str, &current_state);
 
 	acsmFree2(acsm);
 
 	return 0;
 }
-
-
 

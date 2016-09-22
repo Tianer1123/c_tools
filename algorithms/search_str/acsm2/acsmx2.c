@@ -3390,6 +3390,8 @@ int main(int argc, char **argv)
 	int current_state = 1;
 	acsmSearch2(acsm, str, strlen(str), myMatch, "found", &current_state);
 
+	acsmFree2(acsm);
+
 	return 0;
 }
 

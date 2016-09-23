@@ -4,8 +4,8 @@ CFLAGS=-c -g $(INCL)
 
 TARGET=acsm2
 
-objects=acsmx2.o
-source=acsmx2.c
+objects=test.o acsmx2.o
+source=test.c acsmx2.c
 
 all:
 	$(CC) -c $(source) $(CFLAGS)

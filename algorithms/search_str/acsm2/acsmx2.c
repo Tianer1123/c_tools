@@ -3379,6 +3379,7 @@ int acsmPrintSummaryInfo2(void)
 	return 0;
 }
 
+#ifdef MIAN_TEST 
 int myMatch(void *id, void *tree, int index, void *data, void *neg_list)
 {
 	printf("id:%s(%d) in %s\n", (char *)id, index, (char *)data);
@@ -3416,4 +3417,5 @@ int main(int argc, char **argv)
 
 	return 0;
 }
+#endif
 

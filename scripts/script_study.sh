@@ -341,3 +341,11 @@ fi
  [[ $str1 > $str2 ]] #str1字母序比str2大
  [[ $str1 < $str2 ]] #str1字母序比str2小
  
+ [[ -z $str1 ]] #空字符串返回真
+ [[ -n $str1 ]] #非控字符串返回真
+
+#组合
+if [[ -n $str1 ]] && [[ -z $str2 ]] ;
+then
+	commands;
+fi

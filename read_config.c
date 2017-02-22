@@ -6,7 +6,7 @@
 # Using '=' delimited key and value #
 #####################################
 
-portal_server_ip = 192.168.1.242
+server_ip = 192.168.1.121
 
 */
 

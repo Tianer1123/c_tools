@@ -12,3 +12,4 @@
 * [socketpair.c](https://github.com/Tianer1123/c_tools/blob/master/socketpair.c)：socketpair例子程序.
 * [scripts/](https://github.com/Tianer1123/c_tools/tree/master/scripts)：一些脚本工具.
 * [file_num.c](https://github.com/Tianer1123/c_tools/blob/master/file_num.c)：代码量统计工具.
+* [read_config.c](https://github.com/Tianer1123/c_tools/blob/master/read_config.c)：读配置文件源码。

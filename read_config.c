@@ -1,3 +1,17 @@
+/*
+
+配置文件sys_config.cfg:
+
+#############  sys config ###########
+# Using '=' delimited key and value #
+#####################################
+
+portal_server_ip = 192.168.1.242
+
+*/
+
+
+
 #include <stdio.h>
 #include <string.h>
 #include <ctype.h>

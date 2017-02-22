@@ -142,7 +142,9 @@ void init_config_file()
 			line_num++;
 			continue;
 		}
-
+		
+		memset(key, 0, KV_SIZE);
+		memset(value, 0, KV_SIZE);
 		parse_line_data(index, key, value);
 
 		line_num++;

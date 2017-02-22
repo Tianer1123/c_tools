@@ -54,11 +54,6 @@ void set_key_value(char *key, char *value)
 	if (strcmp(key, "server_ip") == 0) {
 		memcpy(portal_sip, value, strlen(value));
 	}
-
-	if (strlen(portal_sip) == 0) {
-		memcpy(portal_sip, "192.168.1.111", 13);
-	}
-
 }
 
 static int is_space_line(char *line)
@@ -113,7 +108,7 @@ void parse_line_data(char *line, char *key, char *value)
 	set_key_value(key, value);
 }
 
-void init_sys_config()
+void init_config_file()
 {
 	char file_path[FILE_PATH_LEN] = {0};
 	char line[LINE_SIZE] = {0};
@@ -154,6 +149,18 @@ void init_sys_config()
 	}
 
 	fclose(fp);
+}
+
+void check_args() {
+	if (strlen(portal_sip) == 0) {
+		memcpy(portal_sip, "192.168.1.111", 13);
+	}
+}
+
+void init_sys_config()
+{
+	init_config_file();
+	check_args();
 }
 
 int main(int argc, char **argv)

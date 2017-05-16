@@ -88,7 +88,7 @@ while true ; do
 
                 #下载新的升级包文件
                 if [ $need_download -eq 1 ];then
-                    url_version="$TEST_VERSION_URL/fyx/$new_version"
+                    url_version="$TEST_VERSION_URL/$new_version"
                     `wget $url_version`
                 fi
 
@@ -97,7 +97,7 @@ while true ; do
                     #解压升级包
                     tar zxvf $new_version
                     #运行TEST程序
-                    $TEST_TEST -d 192.168.1.147 &
+                    $TEST_TEST &
 
                     sleep 5
                 fi

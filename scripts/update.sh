@@ -10,11 +10,14 @@ isNewDay=1
 #记录每天的日期
 perDate=$(date "+%Y%m%d")
 
+TEST_PATH=/root/test
+
 #升级程序版本号
 TEST_VERSION_FILE=version_file
+TEST_VERSION_PATH_FILE=version_file
 
 #当前版本号,第一次装程序必须存在,升级包不必存在
-TEST_CURRENT_VERSION=current_version
+TEST_CURRENT_VERSION=/root/test/current_version
 
 #version文件存放目录
 TEST_VERSION_URL=192.168.1.105:8080/version
@@ -23,8 +26,8 @@ TEST_VERSION_URL=192.168.1.105:8080/version
 TEST_VERSION=`cat $TEST_CURRENT_VERSION`
 new_version=$TEST_VERSION
 
-TEST_TEST=test
-TEST_DOG=watch_dog.sh
+TEST_TEST=/root/test/test
+TEST_DOG=/root/test/watch_dog.sh
 
 while true ; do
 
@@ -38,14 +41,14 @@ while true ; do
 
             url_version_file="$TEST_VERSION_URL/$TEST_VERSION_FILE"
 
-            if [ -f $TEST_VERSION_FILE ];then
-                rm -rf $TEST_VERSION_FILE
+            if [ -f $TEST_VERSION_PATH_FILE ];then
+                rm -rf $TEST_VERSION_PATH_FILE
             fi
             #下载版本号文件
             `wget $url_version_file`
 
             #如果文件下载失败，等待下次升级
-            if [ ! -f $TEST_VERSION_FILE ];then
+            if [ ! -f $TEST_VERSION_PATH_FILE ];then
                 isNewDay=0
                 sleep 2
                 continue
@@ -54,7 +57,7 @@ while true ; do
             #读取版本号文件并获取服务器版本号
             while read line; do
                 new_version=`echo $line | awk -F '=' '{print $2}'`
-            done < $TEST_VERSION_FILE
+            done < $TEST_VERSION_PATH_FILE
 
             #如果升级文件为空值，等待第二天下载升级版本号
             if [ -z $new_version ];then
@@ -79,9 +82,9 @@ while true ; do
 
                 #如果之前下载过这个升级包，并且没被删除掉，就不再重新下载
                 need_download=1
-                for ver in `ls *.tar.gz`;
+                for ver in `ls $TEST_PATH/*.tar.gz`;
                 do
-                    if [ $ver == $new_version ];then
+                    if [ $ver == TEST_PATH/$new_version ];then
                         need_download=0
                     fi
                 done
@@ -92,10 +95,10 @@ while true ; do
                     `wget $url_version`
                 fi
 
-                if [ -f $new_version ];then
+                if [ -f TEST_PATH/$new_version ];then
 
                     #解压升级包
-                    tar zxvf $new_version
+                    tar zxvf TEST_PATH/$new_version
                     #运行TEST程序
                     $TEST_TEST &
 
@@ -109,7 +112,7 @@ while true ; do
                     echo "rolling back..."
 
                     #解压上一个升级包(升级失败前的升级包)
-                    tar zxvf $TEST_VERSION
+                    tar zxvf TEST_PATH/$TEST_VERSION
 
                     #保留原来的版本号
                     new_version=$TEST_VERSION
@@ -126,12 +129,12 @@ while true ; do
                 echo $TEST_VERSION > $TEST_CURRENT_VERSION
 
                 #删除多余的升级包,保留当前运行的升级包
-                for ver in `ls *.tar.gz`;
+                for ver in `ls TEST_PATH/*.tar.gz`;
                 do
-                    if [ $ver == $TEST_VERSION ];then
+                    if [ $ver == TEST_PATH/$TEST_VERSION ];then
                         continue
                     else
-                        rm -rf $ver
+                        rm -rf TEST_PATH/$ver
                     fi
                 done
             fi

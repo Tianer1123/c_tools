@@ -194,6 +194,7 @@ int main(void)
         }
     }
     printf("matchcount : %d\n", matchCount);
+    hs_free_scratch(scratch);
     hs_free_database(database);
 
     return 0;

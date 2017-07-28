@@ -15,3 +15,4 @@
 * [read_config.c](https://github.com/Tianer1123/c_tools/blob/master/read_config.c)：读配置文件源码.
 * [list_test/](https://github.com/Tianer1123/c_tools/tree/master/list_test)：内核list.h测试示例源码.
 * [c-thread-pool](https://github.com/Pithikos/C-Thread-Pool)：c语言实现的线程池.
+* [hyperscan](https://github.com/Tianer1123/c_tools/tree/master/hyperscan)：hyperscan例子代码.

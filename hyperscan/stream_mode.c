@@ -91,7 +91,7 @@ static int payloadOffset(const unsigned char *pkt_data, unsigned int *offset,
     return *length != 0;
 }
 
-struct fiveTuples {
+struct streams {
     int id;
     hs_stream_t *stream;
 };
@@ -152,7 +152,7 @@ int main(void)
     const unsigned char *pktData;
     int matchCount = 0;
 
-    struct fiveTuples ft[65535] = {0};
+    struct streams ft[65535] = {0};
     
     while ((pktData = pcap_next(pcapHandle, &pktHeader)) != NULL) {
         unsigned int offset = 0, length = 0;

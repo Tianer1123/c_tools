@@ -35,7 +35,7 @@ int main(void)
     unsigned int ids[3] = {110, 123, 890};
     unsigned int flags[3] = {0, 0, 0};
 
-    flags[0] |= HS_FLAG_SOM_LEFTMOST;
+    flags[0] |= HS_FLAG_SOM_LEFTMOST; //该标志会降低性能。
     flags[1] |= HS_FLAG_CASELESS;
     flags[1] |= HS_FLAG_SOM_LEFTMOST;
     flags[2] |= HS_FLAG_CASELESS;

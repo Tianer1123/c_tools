@@ -112,7 +112,7 @@ int main(void)
     unsigned int flags[3] = {0, 0, 0};
 
 
-    flags[0] |= HS_FLAG_SOM_LEFTMOST;
+    flags[0] |= HS_FLAG_SOM_LEFTMOST; //该标志会降低性能。
     flags[1] |= HS_FLAG_SOM_LEFTMOST;
     flags[2] |= HS_FLAG_SOM_LEFTMOST;
 

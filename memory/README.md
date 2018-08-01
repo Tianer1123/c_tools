@@ -20,7 +20,7 @@
 这是一个应用于单线程环境且分配单元大小固定的内存池，一般用来为执行时会动态频繁地创建且可能会被多次创建的类对象或者结构体分配内存。
 
 ### MemoryPool:
-``` c
+``` c++
 class MemoryPool
 {
 	private:
@@ -41,7 +41,7 @@ class MemoryPool
 ```
 
 ### MemoryBlock:
-``` c
+``` c++
 struct MemoryBlock
 {
 	USHORT          nSize;
